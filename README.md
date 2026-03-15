@@ -25,17 +25,20 @@ Get Elon Musk to delete your requirements. Have Steve Jobs question your UX. Ask
 
 ## Install
 
+Clone anywhere and run `./setup`:
+
 ```bash
-git clone https://github.com/your-username/lenshub ~/.claude/skills/lenshub
-cd ~/.claude/skills/lenshub
+git clone https://github.com/anasstissir/lenshub
+cd lenshub
 ./setup
 ```
 
 That's it. No binary compilation. No Playwright. Sub-10-second install.
 
-The setup script:
+The setup script works regardless of where you cloned the repo. It:
 1. Generates `SKILL.md` files from templates
-2. Symlinks each skill into `~/.claude/skills/` so Claude Code discovers them
+2. Symlinks the repo into `~/.claude/skills/lenshub` (so upgrades and update checks work)
+3. Symlinks each skill into `~/.claude/skills/` so Claude Code discovers them
 
 ## Usage
 

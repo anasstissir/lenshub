@@ -75,15 +75,16 @@ Continue with the current skill.
 
 ### Step 2: Find the install directory
 
+The `./setup` script symlinks the repo into `~/.claude/skills/lenshub`. Resolve the symlink to get the real repo root so `git` operations work correctly.
+
 ```bash
-if [ -d "${HOME}/.claude/skills/lenshub/.git" ]; then
-  INSTALL_DIR="${HOME}/.claude/skills/lenshub"
-elif [ -d ".claude/skills/lenshub/.git" ]; then
-  INSTALL_DIR=".claude/skills/lenshub"
-elif [ -d "${HOME}/.claude/skills/lenshub" ]; then
-  INSTALL_DIR="${HOME}/.claude/skills/lenshub"
+LINK="${HOME}/.claude/skills/lenshub"
+if [ -e "$LINK" ]; then
+  # Resolve the symlink to the real repo (handles both symlinked and direct clones)
+  INSTALL_DIR="$(cd "$LINK" && pwd -P)"
 else
-  echo "ERROR: lenshub not found under ~/.claude/skills/"
+  echo "ERROR: lenshub not found at ~/.claude/skills/lenshub"
+  echo "Run ./setup from the lenshub repo to install."
   exit 1
 fi
 echo "Install dir: $INSTALL_DIR"
