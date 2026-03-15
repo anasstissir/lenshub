@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# lenshub-update-check — outputs one of:
+#   UPGRADE_AVAILABLE <old> <new>
+#   JUST_UPGRADED <old> <new>
+#   (nothing, if up to date or check skipped)
+set -e
+
+INSTALL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+STATE_DIR="${HOME}/.lenshub"
+JUST_UPGRADED_FILE="${STATE_DIR}/just-upgraded-from"
+SNOOZE_FILE="${STATE_DIR}/update-snoozed"
+NO_CHECK_FILE="${STATE_DIR}/no-update-check"
+
+# Respect "never ask again"
+[ -f "$NO_CHECK_FILE" ] && exit 0
+
+# Emit just-upgraded notification and clear it
+if [ -f "$JUST_UPGRADED_FILE" ]; then
+  OLD_VER=$(cat "$JUST_UPGRADED_FILE")
+  NEW_VER=$(node -e "console.log(require('${INSTALL_DIR}/package.json').version)" 2>/dev/null \
+    || python3 -c "import json; print(json.load(open('${INSTALL_DIR}/package.json'))['version'])" 2>/dev/null \
+    || echo "")
+  rm -f "$JUST_UPGRADED_FILE"
+  [ -n "$NEW_VER" ] && echo "JUST_UPGRADED $OLD_VER $NEW_VER"
+  exit 0
+fi
+
+# Check snooze backoff
+if [ -f "$SNOOZE_FILE" ]; then
+  SNOOZE_LEVEL=$(awk '{print $2}' "$SNOOZE_FILE")
+  SNOOZE_TIME=$(awk '{print $3}' "$SNOOZE_FILE")
+  NOW=$(date +%s)
+  case "${SNOOZE_LEVEL:-0}" in
+    1) DURATION=86400   ;;  # 24h
+    2) DURATION=172800  ;;  # 48h
+    *) DURATION=604800  ;;  # 1 week
+  esac
+  [ $((NOW - ${SNOOZE_TIME:-0})) -lt $DURATION ] && exit 0
+fi
+
+# Require a git install to check remote
+[ -d "${INSTALL_DIR}/.git" ] || exit 0
+
+# Get local version
+LOCAL_VER=$(node -e "console.log(require('${INSTALL_DIR}/package.json').version)" 2>/dev/null \
+  || python3 -c "import json; print(json.load(open('${INSTALL_DIR}/package.json'))['version'])" 2>/dev/null \
+  || echo "")
+[ -z "$LOCAL_VER" ] && exit 0
+
+# Fetch remote version quietly — fail silently (no network = no problem)
+cd "$INSTALL_DIR"
+git fetch origin --quiet 2>/dev/null || exit 0
+REMOTE_VER=$(git show origin/main:package.json 2>/dev/null \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])" 2>/dev/null \
+  || git show origin/main:package.json 2>/dev/null \
+  | node -e "const s=require('fs').readFileSync('/dev/stdin','utf8'); process.stdout.write(JSON.parse(s).version)" 2>/dev/null \
+  || echo "")
+[ -z "$REMOTE_VER" ] && exit 0
+[ "$LOCAL_VER" = "$REMOTE_VER" ] && exit 0
+
+echo "UPGRADE_AVAILABLE $LOCAL_VER $REMOTE_VER"

@@ -1,0 +1,24 @@
+{
+  "name": "lenshub",
+  "version": "1.0.0",
+  "description": "Iconic thinker lenses, as Claude Code skills",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "gen:skill-docs": "bun run scripts/gen-skill-docs.ts",
+    "test": "bun test test/",
+    "skill:check": "bun run scripts/gen-skill-docs.ts --dry-run"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "claude",
+    "ai-agent",
+    "skills",
+    "thinkers",
+    "planning",
+    "review",
+    "devtools"
+  ]
+}
