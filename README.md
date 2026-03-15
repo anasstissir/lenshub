@@ -69,7 +69,11 @@ The setup script works regardless of where you cloned the repo. It:
 
 ## Usage
 
-In any Claude Code session, just invoke a skill with a description of your plan:
+These are review skills, not implementation skills. Enter plan mode first:
+
+> Press `Shift+Tab` in any Claude Code session to enter plan mode.
+
+Then invoke a lens with a description of your plan:
 
 ```
 /plan-musk I'm building a notification service that sends emails, SMS, and push
