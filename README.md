@@ -1,6 +1,33 @@
-# lenshub
+```
+ ██╗     ███████╗███╗   ██╗███████╗    ██╗  ██╗██╗   ██╗██████╗
+ ██║     ██╔════╝████╗  ██║██╔════╝    ██║  ██║██║   ██║██╔══██╗
+ ██║     █████╗  ██╔██╗ ██║███████╗    ███████║██║   ██║██████╔╝
+ ██║     ██╔══╝  ██║╚██╗██║╚════██║    ██╔══██║██║   ██║██╔══██╗
+ ███████╗███████╗██║ ╚████║███████║    ██║  ██║╚██████╔╝██████╔╝
+ ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝
+          iconic thinkers.  as claude code skills.
+```
 
-**Iconic thinker lenses, as Claude Code skills.**
+```
+                               YOUR PLAN
+                                   │
+                                  ╱│╲
+                                 ╱ │ ╲
+                                ╱  │  ╲
+                               ╱░░░│░░░╲
+                              ╱░░░░│░░░░╲
+                             ╱░ L E N S ░╲
+                            ╱░░  H U B  ░░╲
+                           ╱░░░░░░│░░░░░░░╲
+                          ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
+               │          │       │       │          │
+               ▼          ▼       ▼       ▼          ▼
+            /plan-      /plan-  /plan-  /plan-     /plan-
+             musk        jobs   altman  bezos      feynman
+           delete it   feel it scale it work back  prove it
+```
+
+---
 
 Get Elon Musk to delete your requirements. Have Steve Jobs question your UX. Ask Sam Altman if this compounds. Or convene the whole board and watch them disagree.
 
