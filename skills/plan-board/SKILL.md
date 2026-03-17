@@ -1,6 +1,7 @@
 ---
 name: plan-board
 version: 1.0.0
+platform: claude-code
 description: |
   Board-level meta-synthesis. Runs Musk, Jobs, and Altman lenses in sequence,
   surfaces where they agree (GREEN) and disagree (RED), and delivers a

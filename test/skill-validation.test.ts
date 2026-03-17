@@ -250,6 +250,194 @@ describe('browse-qa action skill validation', () => {
   }
 });
 
+describe('mckinsey-slide action skill validation', () => {
+  const skillPath = path.join(SKILLS_DIR, 'mckinsey-slide', 'SKILL.md');
+  if (!fs.existsSync(skillPath)) {
+    test.skip('mckinsey-slide/SKILL.md not found', () => {});
+  } else {
+    const content = fs.readFileSync(skillPath, 'utf-8');
+
+    test('mckinsey-slide: references Pyramid Principle', () => {
+      expect(content).toContain('Pyramid Principle');
+    });
+
+    test('mckinsey-slide: asks for topic and audience', () => {
+      expect(content).toContain('Topic');
+      expect(content).toContain('Audience');
+    });
+
+    test('mckinsey-slide: has action titles section', () => {
+      expect(content).toContain('Action Title');
+    });
+
+    test('mckinsey-slide: has MECE check', () => {
+      expect(content).toContain('MECE');
+    });
+
+    test('mckinsey-slide: has So What test', () => {
+      expect(content).toContain('So What');
+    });
+
+    test('mckinsey-slide: has cover test', () => {
+      expect(content).toContain('Cover Test');
+    });
+
+    test('mckinsey-slide: has SCR narrative arc', () => {
+      expect(content).toContain('SCR');
+    });
+
+    test('mckinsey-slide: has AskUserQuestion reference', () => {
+      expect(content).toContain('AskUserQuestion');
+    });
+
+    test('mckinsey-slide: has Completion Summary', () => {
+      expect(content).toContain('Completion Summary');
+    });
+
+    test('mckinsey-slide: has platform: cowork in frontmatter', () => {
+      const fm = parseFrontmatter(content);
+      expect(fm?.platform).toBe('cowork');
+    });
+
+    test('mckinsey-slide: has output format question in Step 0', () => {
+      expect(content).toContain('Output format');
+    });
+
+    test('mckinsey-slide: references pptxgenjs output', () => {
+      expect(content).toContain('pptxgenjs');
+    });
+  }
+});
+
+describe('bcg-slide action skill validation', () => {
+  const skillPath = path.join(SKILLS_DIR, 'bcg-slide', 'SKILL.md');
+  if (!fs.existsSync(skillPath)) {
+    test.skip('bcg-slide/SKILL.md not found', () => {});
+  } else {
+    const content = fs.readFileSync(skillPath, 'utf-8');
+
+    test('bcg-slide: references hypothesis-driven approach', () => {
+      expect(content).toContain('hypothesis-driven');
+    });
+
+    test('bcg-slide: asks for governing hypothesis', () => {
+      expect(content).toContain('Governing hypothesis');
+    });
+
+    test('bcg-slide: has issue tree section', () => {
+      expect(content).toContain('Issue Tree');
+    });
+
+    test('bcg-slide: has SCQ narrative arc', () => {
+      expect(content).toContain('SCQ');
+    });
+
+    test('bcg-slide: has ghost deck step', () => {
+      expect(content).toContain('Ghost Deck');
+    });
+
+    test('bcg-slide: has MECE check', () => {
+      expect(content).toContain('MECE');
+    });
+
+    test('bcg-slide: has waterfall connectors', () => {
+      expect(content).toContain('waterfall');
+    });
+
+    test('bcg-slide: has AskUserQuestion reference', () => {
+      expect(content).toContain('AskUserQuestion');
+    });
+
+    test('bcg-slide: has Completion Summary', () => {
+      expect(content).toContain('Completion Summary');
+    });
+
+    test('bcg-slide: has platform: cowork in frontmatter', () => {
+      const fm = parseFrontmatter(content);
+      expect(fm?.platform).toBe('cowork');
+    });
+
+    test('bcg-slide: has output format question in Step 0', () => {
+      expect(content).toContain('Output format');
+    });
+
+    test('bcg-slide: references pptxgenjs output', () => {
+      expect(content).toContain('pptxgenjs');
+    });
+  }
+});
+
+describe('ey-slide action skill validation', () => {
+  const skillPath = path.join(SKILLS_DIR, 'ey-slide', 'SKILL.md');
+  if (!fs.existsSync(skillPath)) {
+    test.skip('ey-slide/SKILL.md not found', () => {});
+  } else {
+    const content = fs.readFileSync(skillPath, 'utf-8');
+
+    test('ey-slide: has POINT narrative arc', () => {
+      expect(content).toContain('POINT');
+    });
+
+    test('ey-slide: has EY 5-Box executive summary', () => {
+      expect(content).toContain('5-Box');
+    });
+
+    test('ey-slide: has ghost deck step', () => {
+      expect(content).toContain('Ghost Deck');
+    });
+
+    test('ey-slide: has QA step', () => {
+      expect(content).toContain('QA Pass');
+    });
+
+    test('ey-slide: has platform: cowork in frontmatter', () => {
+      const fm = parseFrontmatter(content);
+      expect(fm?.platform).toBe('cowork');
+    });
+
+    test('ey-slide: has AskUserQuestion reference', () => {
+      expect(content).toContain('AskUserQuestion');
+    });
+
+    test('ey-slide: has Completion Summary', () => {
+      expect(content).toContain('Completion Summary');
+    });
+
+    test('ey-slide: references frameworks.md', () => {
+      expect(content).toContain('references/frameworks.md');
+    });
+
+    test('ey-slide: references visual-identity.md', () => {
+      expect(content).toContain('references/visual-identity.md');
+    });
+  }
+});
+
+describe('Cowork skills with references/ folder', () => {
+  for (const skillName of getSkillDirs()) {
+    const refsDir = path.join(SKILLS_DIR, skillName, 'references');
+    if (!fs.existsSync(refsDir)) continue;
+
+    test(`${skillName}: references/frameworks.md exists`, () => {
+      expect(fs.existsSync(path.join(refsDir, 'frameworks.md'))).toBe(true);
+    });
+
+    test(`${skillName}: references/visual-identity.md exists`, () => {
+      expect(fs.existsSync(path.join(refsDir, 'visual-identity.md'))).toBe(true);
+    });
+
+    test(`${skillName}: SKILL.md references frameworks.md`, () => {
+      const content = fs.readFileSync(path.join(SKILLS_DIR, skillName, 'SKILL.md'), 'utf-8');
+      expect(content).toContain('references/frameworks.md');
+    });
+
+    test(`${skillName}: SKILL.md references visual-identity.md`, () => {
+      const content = fs.readFileSync(path.join(SKILLS_DIR, skillName, 'SKILL.md'), 'utf-8');
+      expect(content).toContain('references/visual-identity.md');
+    });
+  }
+});
+
 describe('Version consistency', () => {
   test('all skills have the same version as package.json', () => {
     const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'));

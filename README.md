@@ -50,7 +50,19 @@ Get Elon Musk to delete your requirements. Have Steve Jobs question your UX. Ask
 |-------|-------------|----------|
 | `/browse-qa` | Navigates and tests a running web app with a headless browser | Verifying a feature shipped as planned; generating a paste-ready QA report |
 
+### Cowork slide skills
+
+| Skill | Style | Output |
+|-------|-------|--------|
+| `/bcg-slide` | Hypothesis-driven, issue tree, ghost deck, SCQ arc | Markdown or `.pptx` via pptxgenjs |
+| `/ey-slide` | POINT narrative, 5-Box executive summary, QA pass | Markdown or `.pptx` via pptxgenjs |
+| `/mckinsey-slide` | Pyramid Principle, MECE, SCR arc, action titles | Markdown or `.pptx` via pptxgenjs |
+
+These ship as separate ZIPs for upload into the [Cowork](https://cowork.so) platform.
+
 ## Install
+
+### Claude Code (plan review + action skills)
 
 Clone anywhere and run `./setup`:
 
@@ -66,6 +78,23 @@ The setup script works regardless of where you cloned the repo. It:
 1. Generates `SKILL.md` files from templates
 2. Symlinks the repo into `~/.claude/skills/lenshub` (so upgrades and update checks work)
 3. Symlinks each skill into `~/.claude/skills/` so Claude Code discovers them
+
+### Cowork (slide skills)
+
+1. **Build the ZIPs** (or grab them from [Releases](https://github.com/anasstissir/lenshub/releases)):
+   ```bash
+   git clone https://github.com/anasstissir/lenshub
+   cd lenshub
+   bun run gen:skill-docs   # generate SKILL.md files
+   bun run package:cowork   # produces dist/cowork-*.zip
+   ```
+
+2. **Upload to Cowork** — in your Cowork workspace go to **Settings → Skills → Upload skill** and upload each ZIP:
+   - `dist/cowork-bcg-slide-v*.zip`
+   - `dist/cowork-ey-slide-v*.zip`
+   - `dist/cowork-mckinsey-slide-v*.zip`
+
+3. **Use in a Cowork session** — invoke with `/bcg-slide`, `/ey-slide`, or `/mckinsey-slide`. The skill will ask for topic, audience, key message, and whether you want markdown or a `.pptx` file.
 
 ## Usage
 

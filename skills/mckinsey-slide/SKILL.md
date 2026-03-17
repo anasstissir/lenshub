@@ -1,0 +1,194 @@
+---
+name: mckinsey-slide
+version: 1.0.0
+platform: cowork
+description: |
+  Create McKinsey-style slide decks as polished .pptx files:
+  Pyramid Principle, MECE structure, SCR narrative, action titles,
+  and pptxgenjs output.
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+  - AskUserQuestion
+---
+<!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
+<!-- Regenerate: bun run gen:skill-docs -->
+
+## Update Check (run first)
+
+```bash
+_UPD=$(~/.claude/skills/lenshub/scripts/lenshub-update-check 2>/dev/null || true)
+[ -n "$_UPD" ] && echo "$_UPD" || true
+```
+
+If output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/lenshub/skills/lenshub-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running lenshub v{to} (just updated!)" and continue.
+
+> "Start with the conclusion. The reader should never have to wonder where you are going."
+> — Barbara Minto, *The Pyramid Principle*
+
+# 📊 MCKINSEY SLIDE CREATOR
+
+## Philosophy
+You are not here to make pretty slides. You are here to **build a logical argument** — then render it visually. McKinsey's method: the conclusion comes first (Pyramid Principle), the structure is airtight (MECE), and every slide title is an insight not a topic. If you covered the body text and read only the titles, the story must still be complete.
+
+**Core frameworks applied in order:**
+1. **Pyramid Principle** (Barbara Minto): Lead with the governing thought. Support with 2-4 MECE arguments. Back each argument with evidence.
+2. **SCR Arc**: Situation (what's true now) → Complication (why that's a problem) → Resolution (what we recommend).
+3. **Action Titles**: Every headline is an insight sentence ("Revenue declined 23% due to customer churn in SMB") not a topic label ("Revenue").
+4. **So What? Test**: Every slide must answer the "so what?" — if it doesn't, rewrite or cut it.
+5. **Cover Test**: Hide all body text. Read only titles. The full story must survive.
+6. **Rule of 3-5**: Max 3-5 bullets per slide. Max 7 words per bullet. One key message per slide.
+
+Do NOT make the deck until you have completed Steps 0–2. Structure first, content second.
+
+## Step 0: Context Intake
+
+AskUserQuestion to collect (all required before proceeding):
+1. **Topic / problem statement** — what decision or situation does this deck address?
+2. **Audience** — board, C-suite, external client, internal team, investor?
+3. **Key message** — complete this sentence: "After this deck, the audience will believe _____."
+4. **Available data / evidence** — what supporting facts, numbers, or analysis exist?
+5. **Deck length** — executive brief (3-5 slides), pitch (8-12 slides), full analysis (15-20 slides)?
+6. **Output format** — structured markdown only, or generate pptxgenjs code for .pptx?
+
+**STOP.** AskUserQuestion. Do NOT proceed until user provides context.
+
+## Step 1: Pyramid Structure
+
+Build the logical argument tree before writing a single slide.
+
+```
+GOVERNING THOUGHT (= Executive Summary headline)
+├── ARGUMENT 1 (MECE bucket 1)
+│   ├── Evidence 1a
+│   └── Evidence 1b
+├── ARGUMENT 2 (MECE bucket 2)
+│   ├── Evidence 2a
+│   └── Evidence 2b
+└── ARGUMENT 3 (MECE bucket 3)
+    ├── Evidence 3a
+    └── Evidence 3b
+```
+
+**MECE check on arguments:** Do they overlap? (If yes — merge or split.) Do they cover all the ground? (If gaps — add or acknowledge.) Mark: ✅ MECE or ❌ MECE VIOLATION.
+
+Present the pyramid to the user. AskUserQuestion to confirm or adjust before proceeding.
+
+## Step 2: SCR Narrative Arc
+
+Map the deck sections to the SCR arc:
+
+```
+SITUATION    | What is currently true? (shared context, no controversy)
+COMPLICATION | Why is that a problem or opportunity? (the tension)
+RESOLUTION   | What should we do? (the recommendation)
+```
+
+If the key message is a recommendation: full SCR arc.
+If the key message is a finding/analysis: Situation + Complication, Resolution = "therefore" summary.
+
+**STOP.** AskUserQuestion to confirm the SCR framing. Do NOT proceed until confirmed.
+
+## Step 3: Deck Architecture
+
+Generate the full slide outline based on the pyramid and SCR arc:
+
+```
+SLIDE #  | SECTION       | ACTION TITLE (draft)                    | EVIDENCE
+---------|---------------|-----------------------------------------|----------
+1        | Cover         | [Topic + audience + date]               | —
+2        | Exec Summary  | [Governing thought as insight]          | "So What?" test ✅
+3        | Situation     | [Action title]                          | [data]
+4        | Situation     | [Action title]                          | [data]
+5        | Complication  | [Action title]                          | [data]
+...
+N-1      | Recommendation| [Action title]                          | [data]
+N        | Next Steps    | [3 concrete actions with owners/dates]  | —
+Appendix | Appendix      | [Supporting detail]                     | —
+```
+
+## Step 4: Framework Pass
+
+For each slide in the approved deck outline, read `references/frameworks.md` for full descriptions, visual layouts, and markdown rendering specs. Select the appropriate McKinsey framework and annotate each slide. No content yet.
+
+Read `references/visual-identity.md` before writing any slide content.
+
+Framework types: Pyramid Principle | MECE Issue Tree | McKinsey 7S | Three Horizons | GE-McKinsey Matrix | Value Bridge | Structured Action Plan
+
+## Step 5: Action Title Pass
+
+For every slide in the deck outline, apply this test to the title:
+
+**So What? Test:** Does this title tell the audience what to conclude?
+- ❌ Topic title: "Market Share" → ✅ Insight title: "We lost 8 points of market share in 18 months, concentrated in Gen Z"
+- ❌ Topic title: "Customer Feedback" → ✅ Insight title: "NPS dropped 22 points because onboarding takes 3x too long"
+
+Rewrite any title that fails. Every title must be a complete declarative sentence.
+
+**Cover Test:** Read only the action titles in sequence. Does the story make sense without any body content? If not, restructure.
+
+## Step 6: Content Generation
+
+Write each slide in full:
+
+---
+### Slide [N]: [ACTION TITLE]
+
+**Bullets** (3-5 max, 7 words max each, MECE):
+- [Bullet 1]
+- [Bullet 2]
+- [Bullet 3]
+
+**Visual Proof Point:** [Chart type + data description]
+- Suggested chart: [bar / waterfall / scatter / table / 2x2 matrix / process flow]
+- Key data: [what the visual shows]
+
+**Speaker Notes:** [1-2 sentences the presenter says aloud — context not on slide]
+
+---
+
+Repeat for every slide in the deck.
+
+If output format is pptxgenjs: after all slides are written, generate a complete `slides.ts` file using the pptxgenjs code patterns from `references/visual-identity.md`.
+
+## Output
+
+Produce the complete deck as structured markdown. Sections:
+1. Pyramid structure (reference)
+2. SCR arc (reference)
+3. Full slide-by-slide content (the deliverable)
+4. pptxgenjs `slides.ts` (if output format = pptx)
+
+If the user wants to save: Write to `slides.md` (or `slides.ts`) in the current directory.
+
+## CRITICAL RULES
+
+- Every slide title MUST be an insight (declarative sentence), NEVER a topic label
+- Every deck MUST pass the Cover Test: read titles only — story complete without body
+- MECE check is mandatory on every group of bullets: no overlap, no gaps
+- The So What? test applies to every slide — if a slide can't answer it, cut or merge it
+- Maximum 3-5 bullets per slide; maximum 7 words per bullet
+- One key message per slide — if you're making two points, you have two slides
+
+## CRITICAL RULE — How to ask questions
+Every AskUserQuestion MUST: (1) present 2-3 concrete lettered options, (2) state which you recommend FIRST, (3) explain WHY in 1-2 sentences. No batching. No yes/no questions.
+
+## Completion Summary
+```
++====================================================================+
+|           📊 MCKINSEY SLIDE CREATOR — COMPLETION SUMMARY           |
++====================================================================+
+| Topic                | [topic]                                     |
+| Audience             | [audience]                                  |
+| Slides generated     | ___ slides + ___ appendix slides           |
+| Pyramid structure    | ___ arguments, MECE ✅ / ❌                |
+| SCR arc              | Situation / Complication / Resolution       |
+| Cover test           | PASS / FAIL                                 |
+| Action titles        | ___ of ___ passed So What? test            |
+| Output format        | Markdown / pptxgenjs (.pptx)               |
+| Output               | Markdown deck / Written to slides.md|ts    |
++====================================================================+
+
+"The reader should never have to wonder where you are going."
+```

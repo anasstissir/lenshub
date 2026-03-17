@@ -1,6 +1,7 @@
 ---
 name: plan-altman
 version: 1.0.0
+platform: claude-code
 description: |
   Sam Altman's review. Compounding leverage, AI-native thinking, moat building.
   "Does this matter in 10 years? Is there a version 10x better because of AI?"

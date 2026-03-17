@@ -1,0 +1,191 @@
+---
+name: bcg-slide
+version: 1.0.0
+platform: cowork
+description: |
+  Create BCG-style strategic slide decks as polished .pptx files:
+  hypothesis-driven approach, issue tree, ghost deck workflow,
+  SCQ narrative, BCG frameworks, and pptxgenjs output.
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+  - AskUserQuestion
+---
+<!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
+<!-- Regenerate: bun run gen:skill-docs -->
+
+## Update Check (run first)
+
+```bash
+_UPD=$(~/.claude/skills/lenshub/scripts/lenshub-update-check 2>/dev/null || true)
+[ -n "$_UPD" ] && echo "$_UPD" || true
+```
+
+If output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/lenshub/skills/lenshub-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running lenshub v{to} (just updated!)" and continue.
+
+> "Start with a hypothesis. Your job is not to fill slides — it is to prove or disprove a belief with evidence."
+> — BCG methodology
+
+# 📊 BCG SLIDE CREATOR
+
+## Philosophy
+
+You are not here to make pretty slides. You are here to **test a hypothesis** — then render the proof visually. BCG's method: start with a governing hypothesis (not a conclusion), decompose it into a MECE issue tree, lock the ghost deck skeleton before writing a word of content, and connect every slide with waterfall logic.
+
+**Core frameworks applied in order:**
+1. **Hypothesis-driven approach**: Lead with "We believe X is true because Y." Every slide either proves or disproves a branch of that hypothesis.
+2. **Issue Tree**: MECE decomposition of the governing question into sub-questions. Each sub-question becomes a section. No overlap, no gaps.
+3. **SCQ Arc**: Situation (shared context) → Complication (why it matters now) → Question (the exact question the deck answers). The hypothesis is the answer to that Question.
+4. **Ghost Deck**: Empty slide skeleton (titles only) approved before any content is written. This is the critical gate — no content until the ghost deck is approved.
+5. **Waterfall Connectors**: Every slide title connects to the next with "therefore", "but", or "so". The narrative must flow as a logical chain.
+6. **Cover Test**: Read only action titles. The full story must survive without body content.
+
+Do NOT write content until you have completed Steps 0–3. Ghost deck approval is non-negotiable.
+
+## Step 0: Context Intake
+
+AskUserQuestion to collect (all required before proceeding):
+1. **Topic / problem statement** — what decision or situation does this deck address?
+2. **Audience** — board, C-suite, external client, internal team, investor?
+3. **Governing hypothesis** — complete this sentence: "We believe _____ is true because _____."
+4. **Available data / evidence** — what supporting facts, numbers, or analysis exist?
+5. **Deck length** — executive brief (3-5 slides), pitch (8-12 slides), full analysis (15-20 slides)?
+6. **Output format** — structured markdown only, or generate pptxgenjs code for .pptx?
+
+**STOP.** AskUserQuestion. Do NOT proceed until user provides context.
+
+## Step 1: Issue Tree
+
+MECE decomposition of the governing hypothesis into 2-4 sub-questions. Each sub-question becomes a section of the deck.
+
+```
+GOVERNING QUESTION (= what the deck answers)
+├── SUB-QUESTION 1 (MECE branch 1)
+│   ├── Data point / analysis 1a
+│   └── Data point / analysis 1b
+├── SUB-QUESTION 2 (MECE branch 2)
+│   ├── Data point / analysis 2a
+│   └── Data point / analysis 2b
+└── SUB-QUESTION 3 (MECE branch 3)
+    ├── Data point / analysis 3a
+    └── Data point / analysis 3b
+```
+
+**MECE check on branches:** Do they overlap? (If yes — merge or split.) Do they cover all the ground? (If gaps — add or acknowledge.) Mark: ✅ MECE or ❌ MECE VIOLATION.
+
+Present the issue tree to the user. AskUserQuestion to confirm or adjust before proceeding.
+
+## Step 2: SCQ Narrative Arc
+
+Map the deck sections to the SCQ arc:
+
+```
+SITUATION    | What is currently true? (shared context, no controversy)
+COMPLICATION | Why is that a problem or opportunity? (the tension that demands action)
+QUESTION     | What exact question does this deck answer? (the hypothesis answers this)
+```
+
+The governing hypothesis IS the answer to the Question. The deck's job is to prove or disprove it with evidence.
+
+**STOP.** AskUserQuestion to confirm the SCQ framing. Do NOT proceed until confirmed.
+
+## Step 3: Ghost Deck
+
+Generate the full slide skeleton — titles and structure ONLY. No content. No bullets.
+
+```
+SLIDE #  | SECTION         | ACTION TITLE (draft)                    | FRAMEWORK TYPE
+---------|-----------------|------------------------------------------|----------------
+1        | Cover           | [Topic + audience + date]                | —
+2        | Exec Summary    | [Governing hypothesis as action title]   | Narrative
+3        | Situation       | [Action title]                           | [type]
+4        | Situation       | [Action title]                           | [type]
+5        | Complication    | [Action title]                           | [type]
+...
+N-1      | Recommendation  | [Action title]                           | [type]
+N        | Next Steps      | [3 concrete actions with owners/dates]   | —
+Appendix | Appendix        | [Supporting detail]                      | —
+```
+
+Framework types: Narrative | Comparison | Portfolio | Trend | Decomposition | Strategic
+
+**This is the critical gate.** Present the ghost deck for approval. AskUserQuestion to confirm or restructure. Do NOT write any slide content until the ghost deck is approved.
+
+## Step 4: Framework Pass
+
+For each slide in the approved ghost deck, read `references/frameworks.md` for full descriptions, visual layouts, and markdown rendering specs for each framework type. Select the appropriate BCG framework and annotate each slide. No content yet.
+
+Framework types: Narrative | Comparison | Portfolio | Trend | Decomposition | Strategic | MECE Issue Tree | Narrative Comparison
+
+## Step 5: Content Generation
+
+Read `references/visual-identity.md` before writing any slide content. Then write each slide in full using the approved ghost deck and framework assignments:
+
+---
+### Slide [N]: [ACTION TITLE]
+
+**BCG Framework:** [framework type]
+
+**Bullets** (3-5 max, MECE, hypothesis-supporting):
+- [Bullet 1 — specific insight, not topic]
+- [Bullet 2]
+- [Bullet 3]
+
+**Visual Proof Point:** [Chart type + data description]
+- Suggested visual: [2x2 matrix / waterfall / three horizons / experience curve / bar / line / table]
+- Key data: [what the visual proves about the hypothesis branch]
+
+**Waterfall Connector:** [therefore / but / so] → [next slide title]
+
+**Speaker Notes:** [1-2 sentences the presenter says aloud — context not on slide]
+
+---
+
+Repeat for every slide in the approved ghost deck.
+
+If output format is pptxgenjs: after all slides are written, generate a complete `slides.ts` file using the pptxgenjs code patterns from `references/visual-identity.md`.
+
+## Output
+
+Produce the complete deck as structured markdown. Sections:
+1. Governing hypothesis + issue tree (reference)
+2. SCQ arc (reference)
+3. Approved ghost deck (reference)
+4. Full slide-by-slide content (the deliverable)
+5. pptxgenjs `slides.ts` (if output format = pptx)
+
+If the user wants to save: Write to `slides.md` (or `slides.ts`) in the current directory.
+
+## CRITICAL RULES
+
+- Every slide title MUST be a hypothesis-supporting insight (declarative sentence), NEVER a topic label
+- Ghost deck MUST be approved before Step 5 — this is non-negotiable
+- Every slide group must pass MECE check: no overlap, no gaps
+- Cover test: read titles only — the complete story must survive without body content
+- Waterfall logic: every slide connects to the next with "therefore", "but", or "so"
+- Maximum 3-5 bullets per slide; one key message per slide
+
+## CRITICAL RULE — How to ask questions
+Every AskUserQuestion MUST: (1) present 2-3 concrete lettered options, (2) state which you recommend FIRST, (3) explain WHY in 1-2 sentences. No batching. No yes/no questions.
+
+## Completion Summary
+```
++====================================================================+
+|              📊 BCG SLIDE CREATOR — COMPLETION SUMMARY             |
++====================================================================+
+| Topic                | [topic]                                     |
+| Audience             | [audience]                                  |
+| Governing hypothesis | [hypothesis]                                |
+| Slides generated     | ___ slides + ___ appendix slides           |
+| Issue tree           | ___ branches, MECE ✅ / ❌                 |
+| SCQ arc              | Situation / Complication / Question         |
+| Ghost deck approved  | YES / NO                                    |
+| Cover test           | PASS / FAIL                                 |
+| Waterfall logic      | ___ of ___ connectors valid                 |
+| Output format        | Markdown / pptxgenjs (.pptx)               |
+| Output               | Markdown deck / Written to slides.md|ts    |
++====================================================================+
+
+"The ghost deck is the strategy. Content is just the proof."
+```

@@ -1,6 +1,7 @@
 ---
 name: lenshub-upgrade
 version: 1.0.0
+platform: claude-code
 description: |
   Upgrade lenshub to the latest version. Pulls from the remote repo,
   regenerates all SKILL.md files, and shows what's new.

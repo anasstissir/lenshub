@@ -1,6 +1,7 @@
 ---
 name: plan-feynman
 version: 1.0.0
+platform: claude-code
 description: |
   Richard Feynman's clarity and rigor review. If you can't explain it simply,
   you don't understand it. Surfaces complexity debt, unjustified assumptions,

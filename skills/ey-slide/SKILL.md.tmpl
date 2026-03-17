@@ -1,0 +1,206 @@
+---
+name: ey-slide
+version: {{VERSION}}
+platform: cowork
+description: |
+  Create EY Consulting-style slide decks as polished .pptx files.
+  Uses the POINT narrative, 5-Box executive summary, and EY visual identity.
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+  - AskUserQuestion
+---
+
+## Update Check (run first)
+
+```bash
+_UPD=$(~/.claude/skills/lenshub/scripts/lenshub-update-check 2>/dev/null || true)
+[ -n "$_UPD" ] && echo "$_UPD" || true
+```
+
+If output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/lenshub/skills/lenshub-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running lenshub v{to} (just updated!)" and continue.
+
+> "Every slide is a question answered, every deck is a story told."
+> — EY consulting methodology
+
+# 📊 EY SLIDE CREATOR
+
+## Philosophy
+
+You are here to **build executive clarity** — not fill slides. EY's method: a clear POINT (Position, Observations, Implications, Next steps, Transition) drives every deck. Every slide answers one question. Every section earns its place. The 5-Box executive summary at the front must survive as a standalone brief.
+
+Read `references/visual-identity.md` before generating any content. Read `references/frameworks.md` before the Framework Pass.
+
+**Core frameworks applied in order:**
+1. **POINT Narrative**: Position (what we believe) → Observations (what we found) → Implications (what it means) → Next steps (what to do) → Transition (how we connect to action).
+2. **5-Box Executive Summary**: Business Issue | Approach | Key Findings | Recommendations | Next Steps — one box, one sentence each.
+3. **Action Titles**: Every headline is an insight, not a topic. "Revenue declined 18% YoY due to SMB churn" not "Revenue".
+4. **So What? Test**: Every slide must answer "so what?" for the audience. If it can't, cut or merge.
+5. **Ghost Deck Gate**: Skeleton approved before any content is written. Non-negotiable.
+6. **QA Pass**: After content generation, validate titles, MECE, So What? on every slide.
+
+Do NOT write content until Steps 0–3 are complete. Ghost deck approval is the gate.
+
+## Step 0: Context Intake
+
+AskUserQuestion to collect (all required before proceeding):
+1. **Topic / problem statement** — what decision or situation does this deck address?
+2. **Audience** — board, C-suite, external client, internal team, regulator?
+3. **Key message** — complete this sentence: "After this deck, the audience will believe _____."
+4. **Available data / evidence** — what supporting facts, numbers, or analysis exist?
+5. **Deck length** — executive brief (3-5 slides), pitch (8-12 slides), full analysis (15-20 slides)?
+6. **Output format** — structured markdown only, or generate pptxgenjs code for .pptx?
+
+**STOP.** AskUserQuestion. Do NOT proceed until user provides context.
+
+## Step 1: POINT Structure
+
+Build the narrative argument before writing a single slide.
+
+```
+POSITION     | What do we believe / recommend? (the governing thought)
+OBSERVATIONS | What did we find? (2-4 MECE findings that support the position)
+IMPLICATIONS | What does each finding mean for the audience? (so what?)
+NEXT STEPS   | What must the audience do, by when, and who owns it?
+TRANSITION   | How does this connect to the broader program / initiative?
+```
+
+**MECE check on Observations:** Do they overlap? (merge or split.) Do they cover all the ground? (add or acknowledge.) Mark: ✅ MECE or ❌ MECE VIOLATION.
+
+Present the POINT structure. AskUserQuestion to confirm or adjust before proceeding.
+
+## Step 2: 5-Box Executive Summary
+
+Draft the 5-Box summary — one crisp sentence per box:
+
+```
+BUSINESS ISSUE  | [What problem or opportunity prompted this work?]
+APPROACH        | [What methodology / analysis did we use?]
+KEY FINDINGS    | [What are the 2-3 most important things we found?]
+RECOMMENDATIONS | [What do we recommend the audience do?]
+NEXT STEPS      | [What are the immediate actions with owners and dates?]
+```
+
+**STOP.** AskUserQuestion to confirm the 5-Box framing. Do NOT proceed until confirmed.
+
+## Step 3: Ghost Deck
+
+Generate the full slide skeleton — titles and structure ONLY. No content. No bullets.
+
+```
+SLIDE #  | SECTION          | ACTION TITLE (draft)                    | FRAMEWORK TYPE
+---------|------------------|------------------------------------------|----------------
+1        | Cover            | [Topic + audience + date]                | —
+2        | Exec Summary     | [5-Box summary]                          | 5-Box
+3        | Position         | [Governing thought as action title]      | Narrative
+4        | Observation 1    | [Action title]                           | [type]
+5        | Observation 2    | [Action title]                           | [type]
+6        | Implication 1    | [Action title]                           | [type]
+...
+N-1      | Recommendations  | [Action title]                           | [type]
+N        | Next Steps       | [3 concrete actions with owners/dates]   | —
+Appendix | Appendix         | [Supporting detail]                      | —
+```
+
+Framework types: POINT Narrative | 5-Box Summary | 2x2 Priority Matrix | Traffic Light Dashboard | Journey Map | Value Bridge | Root Cause Analysis | SWOT Overview
+
+**This is the critical gate.** Present the ghost deck for approval. AskUserQuestion to confirm or restructure. Do NOT write any slide content until the ghost deck is approved.
+
+## Step 4: Framework Pass
+
+For each slide in the approved ghost deck, read `references/frameworks.md` for full descriptions, visual layouts, and pptxgenjs specs. Select the appropriate EY framework and annotate each slide. No content yet.
+
+## Step 5: Content Generation
+
+Read `references/visual-identity.md` before writing any slide. Then write each slide in full using the approved ghost deck and framework assignments:
+
+---
+### Slide [N]: [ACTION TITLE]
+
+**EY Framework:** [framework type]
+
+**Bullets** (3-5 max, MECE, insight-driven):
+- [Bullet 1 — specific insight, not topic]
+- [Bullet 2]
+- [Bullet 3]
+
+**Visual Proof Point:** [Chart type + data description]
+- Suggested visual: [2x2 matrix / waterfall / traffic light / journey map / bar / line / table]
+- Key data: [what the visual proves]
+
+**So What? Answer:** [One sentence — what must the audience conclude from this slide?]
+
+**Speaker Notes:** [1-2 sentences the presenter says aloud — context not on slide]
+
+---
+
+Repeat for every slide in the approved ghost deck.
+
+If output format is pptxgenjs: after all slides are written, generate a complete `slides.ts` file using the pptxgenjs code patterns from `references/visual-identity.md`.
+
+## Step 6: QA Pass
+
+After content generation, validate:
+
+```
+QA CHECKLIST
+☐ Every title is an insight (declarative sentence), not a topic label
+☐ Every slide passes the So What? test
+☐ 5-Box executive summary is self-contained (can stand alone)
+☐ MECE check passes on Observations section
+☐ Ghost deck was approved before Step 5
+☐ Cover test: read titles only — story complete without body
+☐ Max 5 bullets per slide
+☐ EY visual identity applied consistently
+☐ pptxgenjs code compiles (if applicable)
+```
+
+Flag any failures. AskUserQuestion if fixes require content decisions.
+
+## Output
+
+Produce the complete deck as structured markdown. Sections:
+1. POINT structure (reference)
+2. 5-Box executive summary (reference)
+3. Approved ghost deck (reference)
+4. Full slide-by-slide content (the deliverable)
+5. pptxgenjs `slides.ts` (if output format = pptx)
+
+If the user wants to save: Write to `slides.md` (or `slides.ts`) in the current directory.
+
+## CRITICAL RULES
+
+- Every slide title MUST be an insight (declarative sentence), NEVER a topic label
+- Ghost deck MUST be approved before Step 5 — this is non-negotiable
+- 5-Box executive summary MUST be standalone-readable
+- MECE check is mandatory on Observations
+- So What? test applies to every slide — if it can't be answered, cut or merge
+- Maximum 5 bullets per slide; one key message per slide
+- QA Pass is mandatory before declaring the deck complete
+
+## CRITICAL RULE — How to ask questions
+Every AskUserQuestion MUST: (1) present 2-3 concrete lettered options, (2) state which you recommend FIRST, (3) explain WHY in 1-2 sentences. No batching. No yes/no questions.
+
+## Completion Summary
+```
++====================================================================+
+|              📊 EY SLIDE CREATOR — COMPLETION SUMMARY              |
++====================================================================+
+| Topic                | [topic]                                     |
+| Audience             | [audience]                                  |
+| Key message          | [position statement]                        |
+| Slides generated     | ___ slides + ___ appendix slides           |
+| POINT structure      | Position / Observations / Implications /    |
+|                      | Next Steps / Transition                     |
+| 5-Box summary        | COMPLETE / INCOMPLETE                       |
+| Ghost deck approved  | YES / NO                                    |
+| So What? test        | ___ of ___ slides passed                   |
+| Cover test           | PASS / FAIL                                 |
+| QA pass              | PASS / FAIL (___ issues flagged)           |
+| Output format        | Markdown / pptxgenjs (.pptx)               |
+| Output               | Markdown deck / Written to slides.md|ts    |
++====================================================================+
+
+"Every slide is a question answered, every deck is a story told."
+```
